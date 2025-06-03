@@ -23,6 +23,8 @@ CLEAN = $(DATASET) \
 # Change to python3 (or other alias) if needed
 PYTHON = python3
 SUGARSCAPE = sugarscape.py
+SLURM = sugarscape.sh
+BATCH = sbatch
 
 # Check for local Python aliases
 PYCHECK = $(shell which python > /dev/null; echo $$?)
@@ -61,8 +63,11 @@ endif
 test:
 	$(PYTHON) $(SUGARSCAPE) --conf $(CONFIG)
 
+scale 
+	$(BATCH) $(SLURM)
+
 clean:
-	rm -rf $(CLEAN) || true
+	rm -rf $(CLEAN) slurm_jsons sugarscape_out slurm_logs || true
 
 lean:
 	rm -rf $(PLOTS) || true
