@@ -28,12 +28,18 @@ mkdir -p ~/sugarscape/slurm_jsons/${MODEL_NAME}
 TEMPLATE_JSON=~/sugarscape/baseline_10000.json
 JOB_JSON=~/sugarscape/slurm_jsons/${MODEL_NAME}/config_${MODEL_NAME}_seed${SEED}.json
 
+mkdir -p ~/sugarscape/sugarscape_out/${MODEL_NAME}
+
+OUTPUT_PATH=~/sugarscape/sugarscape_out/${MODEL_NAME}/seed${SEED}.json
+
 # Create job-specific configuration
 python3 -c "
 import json
 with open('$TEMPLATE_JSON') as f: config = json.load(f)
 config['sugarscapeOptions']['seed'] = $SEED
-config['sugarscapeOptions']['agentDecisionModels'] = ['$MODEL_NAME']
+config['sugarscapeOptions']['agentDecision4Models'] = ['$MODEL_NAME']
+config['sugarscapeOptions']['logfile'] = '$OUTPUT_PATH'
+config['sugarscapeOptions']['logfileFormat'] = 'json'
 with open('$JOB_JSON', 'w') as f: json.dump(config, f, indent=2)
 print('Created config for model: $MODEL_NAME, seed: $SEED')
 "
@@ -47,20 +53,18 @@ fi
 # Run the simulation
 python3 ~/sugarscape/sugarscape.py --conf "$JOB_JSON"
 
-# Check if simulation completed
+# Check if simulation completed successfully
 if [[ $? -ne 0 ]]; then
     echo "ERROR: Simulation failed"
     exit 1
 fi
 
-# Organize output by model and seed
-mkdir -p ~/sugarscape/sugarscape_out/${MODEL_NAME}
-if [[ -f "log.json" ]]; then
-    mv log.json ~/sugarscape/sugarscape_out/${MODEL_NAME}/seed${SEED}.json
-    echo "Output saved to ~/sugarscape_out/${MODEL_NAME}/seed${SEED}.json"
-else
-    echo "ERROR: log.json not found"
+# Verify output file was created
+if [[ ! -f "$OUTPUT_PATH" ]]; then
+    echo "ERROR: Output file not found at $OUTPUT_PATH"
     exit 1
+else
+    echo "Output saved to $OUTPUT_PATH"
 fi
 
 # Clean up temporary config
