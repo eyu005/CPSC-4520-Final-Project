@@ -63,14 +63,14 @@ endif
 test:
 	$(PYTHON) $(SUGARSCAPE) --conf $(CONFIG)
 
-scale 
+scale:
 	$(BATCH) $(SLURM)
 
 clean:
-	rm -rf $(CLEAN) slurm_jsons sugarscape_out slurm_logs || true
+	@rm -rf $(CLEAN) slurm_jsons sugarscape_out slurm_logs || true
 
 lean:
-	rm -rf $(PLOTS) || true
+	@rm -rf $(PLOTS) || true
 
 .PHONY: all clean data lean plots setup
 
