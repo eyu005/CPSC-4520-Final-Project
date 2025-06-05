@@ -37,7 +37,7 @@ python3 -c "
 import json
 with open('$TEMPLATE_JSON') as f: config = json.load(f)
 config['sugarscapeOptions']['seed'] = $SEED
-config['sugarscapeOptions']['agentDecision4Models'] = ['$MODEL_NAME']
+config['sugarscapeOptions']['agentDecisionModels'] = ['$MODEL_NAME']
 config['sugarscapeOptions']['logfile'] = '$OUTPUT_PATH'
 config['sugarscapeOptions']['logfileFormat'] = 'json'
 with open('$JOB_JSON', 'w') as f: json.dump(config, f, indent=2)
