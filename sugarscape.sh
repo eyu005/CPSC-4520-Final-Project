@@ -19,7 +19,7 @@ DECISION_MODELS=("altruistBinary" "altruistTop" "benthamBinary" "benthamTop" "eg
                 "egoistTop" "negativeBentham" "none" "rawSugarscape")
 
 #Calculate seed and model from job array index 
-SEED=$((SLURM_ARRAY_TASK_ID % 100))
+SEED=$SLURM_ARRAY_TASK_ID
 MODEL_IDX=$((SLURM_ARRAY_TASK_ID / 100))
 MODEL_NAME=${DECISION_MODELS[$MODEL_IDX]}
 
