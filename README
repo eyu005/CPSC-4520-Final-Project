@@ -38,6 +38,9 @@ make setup
 make test
     Run the simulation using the default config.json file and storing a local log in the log.json file.
 
+make scale
+    Submitting large batch/array job to the clusters in delta supercomputers. 
+
 Preconfigured Examples from Growing Artificial Societies:
 A selection of examples can be found in the examples directory.
 Each demonstrates a concept from the book Growing Artificial Societies.
